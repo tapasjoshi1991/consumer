@@ -14,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class ConsumerControllerClient {
 
 	@Autowired
@@ -36,6 +39,10 @@ public class ConsumerControllerClient {
 		{
 			System.out.println(ex);
 		}
+		//System.out.println(response.getClass());
+		ObjectMapper objectMapper = new ObjectMapper();
+		List<Employee> empList = objectMapper.readValue(response.getBody(), new TypeReference<List<Employee>>() {});
+		empList.forEach(s -> System.out.println(s.getName()));
 		System.out.println(response.getBody());
 	}
 
