@@ -2,6 +2,7 @@ package com.javainuse.controllers;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -42,8 +43,10 @@ public class ConsumerControllerClient {
 		//System.out.println(response.getClass());
 		ObjectMapper objectMapper = new ObjectMapper();
 		List<Employee> empList = objectMapper.readValue(response.getBody(), new TypeReference<List<Employee>>() {});
-		empList.forEach(s -> System.out.println(s.getName()));
-		System.out.println(response.getBody());
+		if(Optional.of(empList).isPresent()) {
+			empList.forEach(s -> System.out.println(s.getName()));
+		}
+		//System.out.println(response.getBody());
 	}
 
 	private static HttpEntity<?> getHeaders() throws IOException {
